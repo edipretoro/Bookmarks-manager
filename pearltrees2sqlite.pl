@@ -74,18 +74,20 @@ use base 'Bookmarks::DBI';
 Bookmarks::Taglinks->table('tagLinks');
 Bookmarks::Taglinks->columns(All => qw/artID tagID/);
 
-my $i = 0;
+my ($i,$j) = (0,0);
 my %sites;
+my @removed=();
 foreach my $site( keys(%pearl) ) {
   $i++;
-  if ($site=~ m!^http://www\.pearltrees\.com/.*$!){ next; }
 
-  elsif ($site=~ m!^.*(\.pdf|\.asp|\.jpg|\.png)$!){
+  if ($site=~ m!^.*(\.pdf|\.asp|\.jpg|\.png)$!){
       my $addSite=Bookmarks::Article->insert({
 					      artID => "$i",
 					      URL => "$site",
 					      Title => "$pearl{$site}"
 					     });
+      $removed[$j]=$i;
+      $j++;
     }
 
   else {
@@ -118,10 +120,12 @@ foreach my $artID (keys (%sites) ) {
 }
 
 foreach my $tag (sort keys(%ptree) ) {
-  my $addTag=Bookmarks::Tag->insert({
-				     tagID => "$tag",
-				     Tag => "$ptree{$tag}"
-				    });
+  unless ($tag = @removed) {
+    my $addTag=Bookmarks::Tag->insert({
+				       tagID => "$tag",
+				       Tag => "$ptree{$tag}"
+				      });
+  }
 }
 
 $i = 0;
