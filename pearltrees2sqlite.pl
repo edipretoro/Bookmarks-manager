@@ -8,12 +8,23 @@ use Data::Dump;
 use Class::DBI;
 use DBD::SQLite;
 use LWP::Simple;
+use Getopt::Long;
+use Pod::Usage;
+
+my $config = {
+    input => './pearltrees.rdf',
+    database => './bookmarks.db',
+};
+
+GetOptions( $config, 'input=s', 'database=s', 'help' ) or pod2usage(2);
+
+pod2usage(1) if $config->{help};
+pod2usage(1) if not exists $config->{input} and not exists $config->{database};
 
 my $xml = XML::LibXML->new();
-my $ref = $xml->parse_file("./pearltrees.rdf")
+my $root = $xml->parse_file( $config->{input} )
   or die "Can't read file : $!\n";
 
-my $root   = $ref->getDocumentElement;
 my @ptrees = $root->getElementsByTagName('pt:tree');
 my %ptree;
 
@@ -56,7 +67,7 @@ foreach my $pearl (@pearls) {
 package Bookmarks::DBI;
 use base 'Class::DBI';
 
-my $dbfile = "bookmarks.db";
+my $dbfile = $config->{database};
 Bookmarks::DBI->connection( "dbi:SQLite:dbname=$dbfile", "", "" );
 
 package Bookmarks::Article;
@@ -141,3 +152,18 @@ foreach my $taggedpearl ( keys(%taggedpearl) ) {
         }
     );
 }
+
+__END__
+
+=pod
+
+=head1 NAME
+
+pearltrees2sqlite.pl - Perl script used to convert the export file from
+www.pearltrees.com (pearltrees_export.rdf) into an SQLite database
+
+=head1 SYNOPSIS
+
+pearltrees2sqlite.pl --database bookmarks.db --input pearltrees_export.rdf [--help]
+
+=cut
