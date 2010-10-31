@@ -13,11 +13,10 @@ CREATE TABLE tagLinks (
        PRIMARY KEY (artID,tagID)
 );
 
--- Useless now ; created while parsing pearltrees_export.rdf
+-- Useless now ; created while parsing pearltrees.rdf
 
--- CREATE VIRTUAL TABLE artContent USING FTS3 (
---        contID INTEGER PRIMARY KEY AUTOINCREMENT,
---        content TEXT,
+-- CREATE VIRTUAL TABLE webpage USING FTS3 (
+--        pgcontent TEXT,
 --        artID INTEGER NOT NULL REFERENCES article(artID)
 -- );
 
