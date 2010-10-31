@@ -2,7 +2,7 @@
 
 =head1 Goals
 
-Because the online bookmarks manager pearltrees (www.pearltrees.com) offers less & less satisfation to its user, I decided to create a script to make of my existing bookmarks. However, the only possible export file is a RDF file. So I needed at first to retrieve the data from the file.
+Because the online bookmarks manager pearltrees (www.pearltrees.com) offers less & less satisfation to its users, I decided to create a script to make a database of my existing bookmarks. However, the only possible export file is a RDF file. So I needed at first to retrieve the data from the file.
 
 The final goal of this script is to create a local SQLite database, containing 
 
