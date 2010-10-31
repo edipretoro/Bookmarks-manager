@@ -1,0 +1,27 @@
+=pod
+
+=head1 Goals
+
+Because the online bookmarks manager pearltrees (www.pearltrees.com) offers less & less satisfation to its user, I decided to create a script to make of my existing bookmarks. However, the only possible export file is a RDF file. So I needed at first to retrieve the data from the file.
+
+The final goal of this script is to create a local SQLite database, containing 
+
+* metadata (URL, title)
+
+* tags (based on the parent tree)
+
+* a full-text searchable table (FTS3)
+
+=head1 XML::LibXML to retrieve information
+
+According to the fact that the export file of pearltrees is a RDF file & that I can't use properly RDF yet, I turned to XML::LibXML. Here's how it works :
+
+* Parsing export file
+
+* Retrieving names, URLs & tags
+
+* Linking tags & metadata
+
+=head1 DBI::Class
+
+***To complete***
